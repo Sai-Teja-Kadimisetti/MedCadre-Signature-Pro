@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MedCadre Signature Pro</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #F8FAFC; font-family: ui-sans-serif, system-ui, sans-serif; }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .animate-spin { animation: spin 1s linear infinite; }
+
+    @keyframes pulse-kf { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+    .animate-pulse { animation: pulse-kf 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+
+    @keyframes fade-up { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+    .fade-up { animation: fade-up 0.4s ease-out both; }
+
+    @keyframes slide-in-right { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+    .slide-in { animation: slide-in-right 0.4s ease-out both; }
+
+    /* Floating label */
+    .input-wrap { position: relative; }
+    .input-wrap label {
+      position: absolute; top: -9px; left: 12px;
+      padding: 0 4px; background: white;
+      font-size: 10px; font-weight: 700;
+      color: #94a3b8; text-transform: uppercase; letter-spacing: 0.08em;
+      opacity: 0; transition: opacity 0.15s;
+      pointer-events: none;
+    }
+    .input-wrap:focus-within label { opacity: 1; }
+
+    /* Dropzone hover overlay */
+    #dropzone:hover #change-overlay { opacity: 1; }
+
+    /* Toggle knob transition */
+    #toggle-knob { transition: left 0.2s; }
+
+    .signature-container { font-family: Arial, sans-serif; }
+
+    /* Slider dot transition */
+    .slider-dot { transition: width 0.2s, background-color 0.2s; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col text-slate-900 antialiased">
+
+  <!-- ===== HEADER ===== -->
+  <header class="bg-white border-b border-slate-200 py-4 px-8 flex items-center gap-6 sticky top-0 z-50">
+    <div class="flex items-center gap-2">
+      <div class="w-10 h-10 rounded-lg overflow-hidden flex items-center justify-center">
+        <img
+          src="https://drive.google.com/thumbnail?id=1ha6ZHr036KnabnykKCf9AzzsxI9_-TRp&sz=w500"
+          alt="MedCadre Logo"
+          class="w-full h-full object-contain"
+          referrerpolicy="no-referrer"
+        />
+      </div>
+      <div class="flex flex-col">
+        <span class="font-bold text-xl tracking-tight text-slate-900">MedCadre</span>
+        <div class="h-px w-full bg-slate-200 mt-0.5"></div>
+      </div>
+    </div>
+    <div class="h-8 w-px bg-slate-200 hidden md:block"></div>
+    <h1 class="text-blue-600 font-semibold text-xl hidden md:block">Signature Pro</h1>
+  </header>
+
+  <!-- ===== MAIN ===== -->
+  <main class="flex-1 max-w-7xl mx-auto w-full p-6 md:p-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+    <!-- LEFT COLUMN -->
+    <div class="lg:col-span-7 space-y-8">
+
+      <!-- Section 01: Identity Details -->
+      <div class="bg-white rounded-3xl p-8 shadow-sm border border-slate-100 fade-up">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-7 h-7 bg-slate-900 text-white rounded-full flex items-center justify-center text-xs font-bold">01</div>
+          <h2 class="text-slate-500 font-bold text-xs uppercase tracking-widest">Identity Details</h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="input-wrap">
+            <input id="inp-name"  type="text" value="Employee Name"      placeholder="Full Name"   class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3.5 text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all" />
+            <label>Full Name</label>
+          </div>
+          <div class="input-wrap">
+            <input id="inp-title" type="text" value="JOB TITLE"          placeholder="Job Title"   class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3.5 text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all" />
+            <label>Job Title</label>
+          </div>
+          <div class="input-wrap">
+            <input id="inp-email" type="text" value="email@medcadre.com"  placeholder="Work Email"  class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3.5 text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all" />
+            <label>Work Email</label>
+          </div>
+          <div class="input-wrap">
+            <input id="inp-phone" type="text" value="+1 000 000 000"      placeholder="Work Phone"  class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3.5 text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all" />
+            <label>Work Phone</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 02: Executive Headshot -->
+      <div class="bg-white rounded-3xl p-8 shadow-sm border border-slate-100 fade-up" style="animation-delay:0.1s">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-7 h-7 bg-slate-900 text-white rounded-full flex items-center justify-center text-xs font-bold">02</div>
+          <h2 class="text-slate-500 font-bold text-xs uppercase tracking-widest">Executive Headshot</h2>
+        </div>
+
+
+        <div class="flex flex-col md:flex-row gap-8 items-center">
+
+          <!-- Dropzone -->
+          <div
+            id="dropzone"
+            class="relative w-full md:w-48 flex-shrink-0 h-48 rounded-2xl border-2 border-dashed border-slate-200 flex flex-col items-center justify-center cursor-pointer transition-all overflow-hidden hover:border-blue-400 hover:bg-slate-50"
+          >
+            <input id="file-input" type="file" accept="image/*" class="hidden" />
+
+            <!-- Default state -->
+            <div id="dz-placeholder" class="flex flex-col items-center">
+              <svg class="w-8 h-8 text-slate-300 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+              </svg>
+              <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest text-center px-4">Click or Drop Photo</p>
+            </div>
+
+            <!-- Preview state (hidden initially) -->
+            <img id="dz-preview" class="hidden absolute inset-0 w-full h-full object-cover" alt="Preview" />
+            <div id="change-overlay" class="absolute inset-0 bg-black/40 opacity-0 flex items-center justify-center transition-opacity pointer-events-none">
+              <p class="text-white text-xs font-bold">CHANGE PHOTO</p>
+            </div>
+          </div>
+
+          <div class="flex-1 space-y-5">
+            <p class="text-slate-500 text-sm leading-relaxed">
+              Identity preservation protocol is active. The AI will upgrade your attire and studio lighting while keeping your features 1:1.
+            </p>
+
+            <!-- Checkboxes -->
+            <div class="flex items-center gap-4">
+              <label class="flex items-center gap-2 cursor-pointer select-none" onclick="toggleWithTie()">
+                <div id="cb-tie" class="w-5 h-5 rounded border border-slate-200 flex items-center justify-center transition-all hover:border-blue-400"></div>
+                <span class="text-xs font-bold text-slate-500 uppercase tracking-widest">With Tie</span>
+              </label>
+              <label class="flex items-center gap-2 cursor-pointer select-none" onclick="toggleUseLogo()">
+                <div id="cb-logo" class="w-5 h-5 rounded border border-slate-200 flex items-center justify-center transition-all hover:border-blue-400"></div>
+                <span class="text-xs font-bold text-slate-500 uppercase tracking-widest">Use Logo</span>
+              </label>
+            </div>
+
+            <!-- Generate button -->
+            <button id="gen-btn" onclick="handleGenerate()" disabled
+              class="w-full py-4 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 bg-blue-100 text-blue-300 cursor-not-allowed">
+              Generate Signature
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /LEFT -->
+
+    <!-- RIGHT COLUMN -->
+    <div class="lg:col-span-5 space-y-8 lg:sticky lg:top-24">
+      <div class="bg-white rounded-3xl p-8 shadow-xl shadow-slate-200/50 border border-slate-100 slide-in">
+
+        <!-- Preview header -->
+        <div class="flex items-center justify-between mb-8">
+          <h3 class="text-slate-900 font-bold text-lg">Signature Preview</h3>
+          <div class="flex flex-col items-end gap-1">
+            <button id="copy-btn" onclick="handleCopy()"
+              class="px-6 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2 bg-blue-600 text-white hover:bg-blue-700 shadow-lg shadow-blue-500/20 transition-all active:scale-[0.98]">
+              <!-- copy icon -->
+              <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+              </svg>
+              <span id="copy-btn-text">Copy for Gmail</span>
+            </button>
+            <span id="copied-msg" class="hidden text-[10px] text-emerald-600 font-medium animate-pulse">
+              Image optimized for Gmail character limits
+            </span>
+          </div>
+        </div>
+
+        <!-- Signature box -->
+        <div class="border border-slate-100 rounded-2xl p-6 bg-white overflow-hidden">
+
+          <!-- The actual signature (this gets copied) -->
+          <div id="sig-container" class="signature-container"></div>
+
+          <!-- Image slider -->
+          <div class="mt-8 bg-slate-900 rounded-full h-8 flex items-center px-2 gap-2">
+            <button id="prev-btn" onclick="navigateImage(-1)" disabled
+              class="p-1 text-slate-400 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-opacity">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+              </svg>
+            </button>
+            <div id="slider-dots" class="flex-1 flex justify-center gap-2">
+              <div class="slider-dot w-8 h-1.5 bg-slate-700 rounded-full"></div>
+            </div>
+            <button id="next-btn" onclick="navigateImage(1)" disabled
+              class="p-1 text-slate-400 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-opacity">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Show Logo toggle -->
+          <div class="mt-6 pt-6 border-t border-slate-100">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <div class="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center">
+                  <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
+                  </svg>
+                </div>
+                <div>
+                  <p class="text-xs font-bold text-slate-900">Show Logo</p>
+                  <p class="text-[10px] text-slate-400 font-medium">Toggle MedCadre branding</p>
+                </div>
+              </div>
+              <button id="logo-toggle" onclick="toggleShowLogo()"
+                class="w-12 h-6 rounded-full relative bg-blue-600 transition-colors">
+                <div id="toggle-knob" class="absolute top-1 left-7 w-4 h-4 bg-white rounded-full shadow-sm"></div>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Guide -->
+        <div class="mt-8 bg-slate-50 rounded-2xl p-6 border border-slate-100">
+          <div class="flex items-center gap-2 mb-4">
+            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <h4 class="text-slate-400 font-bold text-[10px] uppercase tracking-widest">Quick Guide</h4>
+          </div>
+          <ol class="space-y-3 text-slate-600 text-xs">
+            <li class="flex gap-2"><span class="font-bold text-slate-400">1.</span><span>Click <strong class="text-slate-900">"Copy for Gmail"</strong>.</span></li>
+            <li class="flex gap-2"><span class="font-bold text-slate-400">2.</span><span>Open <strong class="text-slate-900">Gmail Settings &gt; General &gt; Signature</strong>.</span></li>
+            <li class="flex gap-2"><span class="font-bold text-slate-400">3.</span><span>Paste <strong class="text-slate-900">(Ctrl+V or Cmd+V)</strong> into the box.</span></li>
+            <li class="flex gap-2"><span class="font-bold text-slate-400">4.</span><span>Scroll down and click <strong class="text-slate-900">"Save Changes"</strong>.</span></li>
+          </ol>
+        </div>
+
+      </div>
+    </div><!-- /RIGHT -->
+
+  </main>
+
+  <footer class="py-8 text-center text-slate-400 text-[10px] font-medium uppercase tracking-[0.2em]">
+    &copy; <span id="year"></span> MedCadre Signature Pro &bull; All Rights Reserved
+  </footer>
+
+  <!-- ===== JAVASCRIPT ===== -->
+  <script>
+    // ---------- Constants ----------
+    const LOGO_URL  = 'https://drive.google.com/thumbnail?id=1ha6ZHr036KnabnykKCf9AzzsxI9_-TRp&sz=w500';
+    const ICON_MAIL  = 'https://img.icons8.com/material-rounded/32/2563EB/mail.png';
+    const ICON_PHONE = 'https://img.icons8.com/material-rounded/32/2563EB/phone.png';
+    const ICON_GLOBE = 'https://img.icons8.com/material-rounded/32/2563EB/globe.png';
+
+    // ---------- State ----------
+    const state = {
+      details: {
+        fullName:  'Employee Name',
+        jobTitle:  'JOB TITLE',
+        workEmail: 'email@medcadre.com',
+        workPhone: '+1 000 000 000',
+      },
+      image: null,
+      compressedSourceImage: null,
+      generatedImages: [],
+      currentImageIndex: 0,
+      withTie:        false,
+      showLogo:       true,
+      useLogoAsProfile: false,
+      isGenerating:   false,
+    };
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // ---------- Helpers ----------
+    function formatPhone(phone) {
+      if (!phone) return '';
+      const c = phone.replace(/\D/g, '');
+      if (c.length === 11 && c.startsWith('1'))
+        return `+1 (${c.slice(1,4)}) ${c.slice(4,7)}-${c.slice(7,11)}`;
+      if (c.length === 10)
+        return `+1 (${c.slice(0,3)}) ${c.slice(3,6)}-${c.slice(6,10)}`;
+      return phone;
+    }
+
+    function compressImage(src, w = 140, h = 140, q = 0.82) {
+      return new Promise(resolve => {
+        const img = new Image();
+        img.src = src;
+        img.onload = () => {
+          const size  = Math.min(img.width, img.height);
+          const sx    = (img.width  - size) / 2;
+          const sy    = (img.height - size) / 2;
+          const canvas = document.createElement('canvas');
+          canvas.width = w; canvas.height = h;
+          const ctx = canvas.getContext('2d');
+          ctx.imageSmoothingEnabled = true;
+          ctx.imageSmoothingQuality = 'high';
+          ctx.drawImage(img, sx, sy, size, size, 0, 0, w, h);
+          resolve(canvas.toDataURL('image/jpeg', q));
+        };
+      });
+    }
+
+    function checkIcon(size = 3) {
+      return `<svg style="width:${size*4}px;height:${size*4}px" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+      </svg>`;
+    }
+
+    // ---------- Render Signature ----------
+    function renderSignature() {
+      const d = state.details;
+      const displayedImage = state.useLogoAsProfile ? LOGO_URL
+        : state.generatedImages.length > 0 ? state.generatedImages[state.currentImageIndex]
+        : state.compressedSourceImage;
+
+      const profileCell = displayedImage
+        ? `<img src="${displayedImage}" width="110" height="110" style="display:block;object-fit:cover;" alt="Profile" />`
+        : `<div style="width:110px;height:110px;"></div>`;
+
+      const logoSection = state.showLogo
+        ? `<img src="${LOGO_URL}" width="20" height="20" alt="Logo"
+              style="vertical-align:middle;display:inline-block;object-fit:contain;border:0;" />
+           <span style="font-weight:700;margin-left:6px;color:#0F172A;font-size:14px;vertical-align:middle;">MedCadre</span>`
+        : '';
+
+      document.getElementById('sig-container').innerHTML = `
+<table style="font-family:Arial,sans-serif;color:#000;line-height:1.4;border-collapse:collapse;">
+  <tbody>
+    <tr>
+      <td style="padding-right:15px;vertical-align:middle;">
+        <div style="width:110px;height:110px;border-radius:8px;overflow:hidden;background-color:#F1F5F9;">
+          ${profileCell}
+        </div>
+      </td>
+      <td style="border-left:2px solid #1a73e8;padding-left:15px;vertical-align:middle;">
+        <div style="font-size:20px;font-weight:700;color:#1E293B;line-height:1.2;margin-bottom:4px;">${d.fullName || 'Employee Name'}</div>
+        <div style="font-size:13px;letter-spacing:1px;color:#1a73e8;margin-bottom:14px;text-transform:uppercase;font-weight:bold;">${d.jobTitle || 'JOB TITLE'}</div>
+        <table cellpadding="0" cellspacing="0" style="border-collapse:collapse;border:0;">
+          <tbody>
+            <tr>
+              <td style="padding:3px 0;vertical-align:middle;width:24px;">
+                <img src="${ICON_MAIL}" width="16" height="16" alt="Email" style="display:block;border:0;" />
+              </td>
+              <td style="padding:3px 0;vertical-align:middle;">
+                <a href="mailto:${d.workEmail}" style="color:#1a73e8;text-decoration:underline;font-size:14px;white-space:nowrap;">${d.workEmail || 'email@medcadre.com'}</a>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:3px 0;vertical-align:middle;width:24px;">
+                <img src="${ICON_PHONE}" width="16" height="16" alt="Phone" style="display:block;border:0;" />
+              </td>
+              <td style="padding:3px 0;vertical-align:middle;">
+                <span style="color:#475569;font-size:14px;white-space:nowrap;">${formatPhone(d.workPhone) || '+1 (000) 000-0000'}</span>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:3px 0;vertical-align:middle;width:24px;">
+                <img src="${ICON_GLOBE}" width="16" height="16" alt="Website" style="display:block;border:0;" />
+              </td>
+              <td style="padding:3px 0;vertical-align:middle;">
+                <a href="https://www.medcadre.com" style="color:#1a73e8;text-decoration:underline;font-size:14px;white-space:nowrap;">www.medcadre.com</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" style="padding-top:15px;">
+        <table cellpadding="0" cellspacing="0" style="border-collapse:collapse;border:0;">
+          <tbody>
+            <tr>
+              <td style="vertical-align:middle;">${logoSection}</td>
+              <td style="vertical-align:middle;padding-left:${state.showLogo ? '10px' : '0'};">
+                <span style="color:#64748B;font-size:12px;font-style:italic;vertical-align:middle;">Your Trusted Partner in Healthcare Staffing</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </td>
+    </tr>
+  </tbody>
+</table>`;
+
+      updateSlider();
+    }
+
+    // ---------- Slider ----------
+    function updateSlider() {
+      const dots    = document.getElementById('slider-dots');
+      const prevBtn = document.getElementById('prev-btn');
+      const nextBtn = document.getElementById('next-btn');
+
+      if (state.generatedImages.length === 0) {
+        dots.innerHTML = '<div class="slider-dot w-8 h-1.5 bg-slate-700 rounded-full"></div>';
+        prevBtn.disabled = true;
+        nextBtn.disabled = true;
+      } else {
+        dots.innerHTML = state.generatedImages.map((_, i) =>
+          `<div class="slider-dot h-1.5 rounded-full cursor-pointer ${i === state.currentImageIndex ? 'w-8 bg-blue-500' : 'w-4 bg-slate-700'}"
+               onclick="goToImage(${i})"></div>`
+        ).join('');
+        prevBtn.disabled = state.currentImageIndex === 0;
+        nextBtn.disabled = state.currentImageIndex === state.generatedImages.length - 1;
+      }
+    }
+
+    function goToImage(idx) {
+      state.currentImageIndex = idx;
+      renderSignature();
+    }
+
+    function navigateImage(dir) {
+      const next = state.currentImageIndex + dir;
+      if (next >= 0 && next < state.generatedImages.length) {
+        state.currentImageIndex = next;
+        renderSignature();
+      }
+    }
+
+    // ---------- Toggles ----------
+    function setCheckbox(el, active) {
+      if (active) {
+        el.classList.add('bg-blue-600', 'border-blue-600');
+        el.classList.remove('border-slate-200');
+        el.innerHTML = checkIcon(3);
+      } else {
+        el.classList.remove('bg-blue-600', 'border-blue-600');
+        el.classList.add('border-slate-200');
+        el.innerHTML = '';
+      }
+    }
+
+    function toggleWithTie() {
+      state.withTie = !state.withTie;
+      setCheckbox(document.getElementById('cb-tie'), state.withTie);
+    }
+
+    function toggleUseLogo() {
+      state.useLogoAsProfile = !state.useLogoAsProfile;
+      setCheckbox(document.getElementById('cb-logo'), state.useLogoAsProfile);
+      renderSignature();
+    }
+
+    function toggleShowLogo() {
+      state.showLogo = !state.showLogo;
+      const toggle = document.getElementById('logo-toggle');
+      const knob   = document.getElementById('toggle-knob');
+      if (state.showLogo) {
+        toggle.classList.add('bg-blue-600');
+        toggle.classList.remove('bg-slate-200');
+        knob.style.left = '28px';
+      } else {
+        toggle.classList.remove('bg-blue-600');
+        toggle.classList.add('bg-slate-200');
+        knob.style.left = '4px';
+      }
+      renderSignature();
+    }
+
+    // ---------- Generate button state ----------
+    function updateGenBtn() {
+      const btn = document.getElementById('gen-btn');
+      if (state.isGenerating) {
+        btn.disabled = true;
+        btn.className = 'w-full py-4 rounded-xl font-bold text-sm flex items-center justify-center gap-2 bg-blue-600 text-white cursor-not-allowed';
+        btn.innerHTML = `<div class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div> Generating...`;
+      } else if (state.image) {
+        btn.disabled = false;
+        btn.className = 'w-full py-4 rounded-xl font-bold text-sm flex items-center justify-center gap-2 bg-blue-600 text-white hover:bg-blue-700 shadow-lg shadow-blue-500/20 active:scale-[0.98] transition-all cursor-pointer';
+        btn.innerHTML = 'Generate Signature';
+      } else {
+        btn.disabled = true;
+        btn.className = 'w-full py-4 rounded-xl font-bold text-sm flex items-center justify-center gap-2 bg-blue-100 text-blue-300 cursor-not-allowed';
+        btn.innerHTML = 'Generate Signature';
+      }
+    }
+
+    // ---------- File Upload ----------
+    const dropzone = document.getElementById('dropzone');
+    const fileInput = document.getElementById('file-input');
+
+    dropzone.addEventListener('click', () => fileInput.click());
+
+    dropzone.addEventListener('dragover', e => {
+      e.preventDefault();
+      dropzone.classList.add('border-blue-500', 'bg-blue-50');
+    });
+    dropzone.addEventListener('dragleave', () => {
+      dropzone.classList.remove('border-blue-500', 'bg-blue-50');
+    });
+    dropzone.addEventListener('drop', async e => {
+      e.preventDefault();
+      dropzone.classList.remove('border-blue-500', 'bg-blue-50');
+      const file = e.dataTransfer.files[0];
+      if (file && file.type.startsWith('image/')) await handleFile(file);
+    });
+    fileInput.addEventListener('change', async e => {
+      const file = e.target.files[0];
+      if (file) await handleFile(file);
+    });
+
+    async function handleFile(file) {
+      const reader = new FileReader();
+      reader.onload = async () => {
+        const original = reader.result;
+        state.image = original;
+
+        // Show preview
+        const preview = document.getElementById('dz-preview');
+        document.getElementById('dz-placeholder').style.display = 'none';
+        preview.src = original;
+        preview.classList.remove('hidden');
+        document.getElementById('change-overlay').style.opacity = '';  // CSS hover handles it
+
+        // Compress for signature
+        const compressed = await compressImage(original, 140, 140, 0.85);
+        state.compressedSourceImage = compressed;
+
+        updateGenBtn();
+        renderSignature();
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // ---------- AI Generation ----------
+    async function handleGenerate() {
+      if (!state.image || state.isGenerating) return;
+
+      const apiKey = 'AIzaSyCIGGQtUHPt9q-SxeB68P2tLKrNrn-lzaU';
+
+      state.isGenerating = true;
+      updateGenBtn();
+
+      try {
+        // Compress image to 512x512 JPEG for API — good for face recognition, not too large
+        const apiImage = await compressImage(state.image, 512, 512, 0.92);
+        const match = apiImage.match(/^data:(image\/[a-zA-Z+]+);base64,(.+)$/);
+        if (!match) throw new Error('Invalid image format');
+        const mimeType   = match[1];
+        const base64Data = match[2];
+
+        const tiePrompt = state.withTie
+          ? ' Dress them in a tailored luxury suit with a professional necktie.'
+          : ' Dress them in a tailored luxury suit without a tie, open collar style.';
+
+        const prompt = `This is a photo retouching task. You must output a professional executive headshot of the EXACT SAME PERSON shown in the input photo. IDENTITY PRESERVATION IS MANDATORY — do not change the person's face, facial structure, eyes, nose, mouth, skin tone, age, or any facial feature. The person in the output must be instantly recognizable as the same individual in the input. ONLY change the following: (1)${tiePrompt} (2) Replace the background with a smooth pearl-white studio backdrop. (3) Apply professional studio lighting — soft, even, flattering. Crop the result as a close-up headshot showing head and chest. The person should have a calm, confident, professional expression with a subtle smile. Output must look like a high-end corporate headshot taken in a professional studio, magazine-quality realism.`;
+
+        // Use Gemini REST API directly — no SDK needed
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image:generateContent?key=${apiKey}`;
+        const body = {
+          contents: [{
+            parts: [
+              { inlineData: { data: base64Data, mimeType: mimeType } },
+              { text: prompt }
+            ]
+          }],
+          generationConfig: {
+            responseModalities: ['IMAGE', 'TEXT']
+          }
+        };
+
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body)
+        });
+
+        if (!res.ok) {
+          const errData = await res.json().catch(() => ({}));
+          const msg = errData?.error?.message || `HTTP ${res.status}`;
+          if (res.status === 403)
+            throw new Error('Permission Denied: Ensure your API key has Gemini API enabled with billing.');
+          throw new Error(msg);
+        }
+
+        const data = await res.json();
+        const parts = data.candidates?.[0]?.content?.parts || [];
+
+        for (const part of parts) {
+          const imgData = part.inlineData || part.inline_data;
+          if (imgData) {
+            const rawUrl = `data:${imgData.mimeType || imgData.mime_type || 'image/png'};base64,${imgData.data}`;
+            const compressed = await compressImage(rawUrl, 140, 140, 0.82);
+            const newImages = [...state.generatedImages, compressed].slice(-2);
+            state.generatedImages = newImages;
+            state.currentImageIndex = newImages.length - 1;
+            break;
+          }
+        }
+
+        renderSignature();
+
+      } catch (err) {
+        console.error('Generation error:', err);
+        alert(`Failed to generate image:\n${err.message}`);
+      } finally {
+        state.isGenerating = false;
+        updateGenBtn();
+      }
+    }
+
+    // ---------- Copy for Gmail ----------
+    async function handleCopy() {
+      const container = document.getElementById('sig-container');
+      if (!container) return;
+      try {
+        // Use modern Clipboard API with HTML fallback
+        if (navigator.clipboard && window.ClipboardItem) {
+          const blob = new Blob([container.innerHTML], { type: 'text/html' });
+          await navigator.clipboard.write([new ClipboardItem({ 'text/html': blob })]);
+        } else {
+          // Legacy fallback (works in Gmail)
+          const range = document.createRange();
+          range.selectNode(container);
+          window.getSelection().removeAllRanges();
+          window.getSelection().addRange(range);
+          document.execCommand('copy');
+          window.getSelection().removeAllRanges();
+        }
+
+        // Show copied state
+        const btn  = document.getElementById('copy-btn');
+        const msg  = document.getElementById('copied-msg');
+        btn.classList.replace('bg-blue-600', 'bg-emerald-500');
+        btn.classList.remove('hover:bg-blue-700', 'shadow-blue-500/20');
+        btn.innerHTML = `<svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+        </svg><span>Copied!</span>`;
+        msg.classList.remove('hidden');
+
+        setTimeout(() => {
+          btn.classList.replace('bg-emerald-500', 'bg-blue-600');
+          btn.classList.add('hover:bg-blue-700', 'shadow-blue-500/20');
+          btn.innerHTML = `<svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+          </svg><span>Copy for Gmail</span>`;
+          msg.classList.add('hidden');
+        }, 3000);
+
+      } catch (err) {
+        console.error('Copy failed:', err);
+        alert('Copy failed. Please select the signature manually and press Ctrl+C.');
+      }
+    }
+
+    // ---------- Input listeners ----------
+    function bindInput(id, key, defaultVal) {
+      const el = document.getElementById(id);
+      el.addEventListener('focus', () => {
+        if (el.value === defaultVal) { el.value = ''; state.details[key] = ''; renderSignature(); }
+      });
+      el.addEventListener('input', () => {
+        state.details[key] = el.value;
+        renderSignature();
+      });
+    }
+
+    bindInput('inp-name',  'fullName',  'Employee Name');
+    bindInput('inp-title', 'jobTitle',  'JOB TITLE');
+    bindInput('inp-email', 'workEmail', 'email@medcadre.com');
+    bindInput('inp-phone', 'workPhone', '+1 000 000 000');
+
+    // ---------- Initial render ----------
+    renderSignature();
+  </script>
+</body>
+</html>
